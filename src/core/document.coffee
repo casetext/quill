@@ -13,8 +13,7 @@ class Document
     @formats = {}
     # _.each(options.formats, _.bind(this.addFormat, this))
     _.each(formats, _.bind((v,k) ->
-      this.addFormat k, v
-      this.normalizer.addFormat v
+      this.addFormat k, v.config
     , this))
     this.setHTML(@root.innerHTML)
 

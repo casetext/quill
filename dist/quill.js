@@ -5714,8 +5714,7 @@ Document = (function() {
     this.normalizer = new Normalizer();
     this.formats = {};
     _.each(formats, _.bind(function(v, k) {
-      this.addFormat(k, v);
-      return this.normalizer.addFormat(v);
+      return this.addFormat(k, v.config);
     }, this));
     this.setHTML(this.root.innerHTML);
   }
