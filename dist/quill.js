@@ -5732,9 +5732,6 @@ Document = (function() {
     if (!_.isObject(config)) {
       config = Format.FORMATS[name];
     }
-    if (this.formats[name] != null) {
-      console.warn('Overwriting format', name, this.formats[name]);
-    }
     this.formats[name] = new Format(config);
     return this.normalizer.addFormat(config);
   };

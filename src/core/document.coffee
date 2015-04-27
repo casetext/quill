@@ -26,7 +26,7 @@ class Document
 
   addFormat: (name, config) ->
     config = Format.FORMATS[name] unless _.isObject(config)
-    console.warn('Overwriting format', name, @formats[name]) if @formats[name]?
+    # console.warn('Overwriting format', name, @formats[name]) if @formats[name]?
     @formats[name] = new Format(config)
     @normalizer.addFormat(config)
 
