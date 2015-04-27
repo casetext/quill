@@ -68,15 +68,35 @@ class Format
 
     bullet:
       type: Format.types.LINE
-      exclude: 'list'
+      exclude: ['h1', 'h2', 'h3', 'list', 'blockquote']
       parentTag: 'UL'
       tag: 'LI'
 
     list:
       type: Format.types.LINE
-      exclude: 'bullet'
+      exclude: ['h1', 'h2', 'h3', 'bullet', 'blockquote']
       parentTag: 'OL'
       tag: 'LI'
+
+    blockquote:
+      type: Format.types.LINE
+      exclude: ['h1', 'h2', 'h3', 'bullet', 'list']
+      tag: 'BLOCKQUOTE'
+
+    h1:
+      type: Format.types.LINE
+      exclude: ['h3', 'h2', 'bullet', 'list', 'blockquote']
+      tag: 'H1'
+
+    h2:
+      type: Format.types.LINE
+      exclude: ['h1', 'h3', 'bullet', 'list', 'blockquote']
+      tag: 'H2'
+
+    h3:
+      type: Format.types.LINE
+      exclude: ['h1', 'h2', 'bullet', 'list', 'blockquote']
+      tag: 'H3'
 
 
   constructor: (@config) ->
