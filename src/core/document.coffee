@@ -12,8 +12,15 @@ class Document
     @normalizer = new Normalizer()
     @formats = {}
     # _.each(options.formats, _.bind(this.addFormat, this))
-    _.each(formats, _.bind((v,k) ->
-      this.addFormat k, v.config
+    _.each(options.formats, _.bind((k) ->
+      if (formats[k])
+        this.addFormat k, formats[k].config
+      else
+        this.addFormat k
+    , this))
+    _.each(formats, _.bind((v, k) ->
+      if (options.formats.indexOf k == -1)
+        this.addFormat k, v.config
     , this))
     this.setHTML(@root.innerHTML)
 

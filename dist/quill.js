@@ -5713,8 +5713,17 @@ Document = (function() {
     }
     this.normalizer = new Normalizer();
     this.formats = {};
+    _.each(options.formats, _.bind(function(k) {
+      if (formats[k]) {
+        return this.addFormat(k, formats[k].config);
+      } else {
+        return this.addFormat(k);
+      }
+    }, this));
     _.each(formats, _.bind(function(v, k) {
-      return this.addFormat(k, v.config);
+      if (options.formats.indexOf(k === -1)) {
+        return this.addFormat(k, v.config);
+      }
     }, this));
     this.setHTML(this.root.innerHTML);
   }
