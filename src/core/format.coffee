@@ -5,6 +5,7 @@ dom = require('../lib/dom')
 class Format
   @types:
     LINE: 'line'
+    EMBED: 'embed'
 
   @FORMATS:
     bold:
@@ -46,9 +47,17 @@ class Format
 
     link:
       tag: 'A'
-      attribute: 'href'
+      add: (node, value) ->
+        node.setAttribute('href', value)
+        return node
+      remove: (node) ->
+        node.removeAttribute('href')
+        return node
+      value: (node) ->
+        return node.getAttribute('href')
 
     image:
+      type: Format.types.EMBED
       tag: 'IMG'
       attribute: 'src'
 
@@ -105,6 +114,8 @@ class Format
         node.setAttribute(@config.attribute, value)
       if _.isString(@config.class)
         dom(node).addClass(@config.class + value)
+    if _.isFunction(@config.add)
+      node = @config.add(node, value)
     return node
 
   isType: (type) ->
@@ -148,17 +159,23 @@ class Format
           dom(node).splitBefore(node.parentNode.parentNode) if node.previousSibling?
           dom(node.nextSibling).splitBefore(node.parentNode.parentNode) if node.nextSibling?
         node = dom(node).switchTag(dom.DEFAULT_BLOCK_TAG)
+      else if this.isType(Format.types.EMBED)
+        dom(node).remove()
+        return undefined
       else
         node = dom(node).switchTag(dom.DEFAULT_INLINE_TAG)
-        dom(node).text(dom.EMBED_TEXT) if dom.EMBED_TAGS[@config.tag]?   # TODO is this desireable?
     if _.isString(@config.parentTag)
       dom(node.parentNode).unwrap()
+    if _.isFunction(@config.remove)
+      node = @config.remove(node)
     if node.tagName == dom.DEFAULT_INLINE_TAG and !node.hasAttributes()
       node = dom(node).unwrap()
     return node
 
   value: (node) ->
     return undefined unless this.match(node)
+    if @config.value
+      return @config.value(node)
     if _.isString(@config.attribute)
       return node.getAttribute(@config.attribute) or undefined    # So "" does not get returned
     else if _.isString(@config.style)

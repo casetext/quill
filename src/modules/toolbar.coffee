@@ -32,7 +32,7 @@ class Toolbar
       this.updateActive(range) if range?
     )
     @quill.onModuleLoad('keyboard', (keyboard) =>
-      keyboard.addHotkey([dom.KEYS.BACKSPACE, dom.KEYS.DELETE, dom.KEYS.ENTER], =>
+      keyboard.addHotkey([dom.KEYS.BACKSPACE, dom.KEYS.DELETE], =>
         _.defer(_.bind(this.updateActive, this))
       )
     )
@@ -65,6 +65,7 @@ class Toolbar
     )
 
   setActive: (format, value) ->
+    value = false if format == 'image'  # TODO generalize to all embeds
     input = @inputs[format]
     return unless input?
     $input = dom(input)
