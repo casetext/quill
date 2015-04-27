@@ -5713,9 +5713,9 @@ Document = (function() {
     }
     this.normalizer = new Normalizer();
     this.formats = {};
-    _.each(options.formats, _.bind(this.addFormat, this));
     _.each(formats, _.bind(function(v, k) {
-      return this.addFormat(k, v);
+      this.addFormat(k, v);
+      return this.normalizer.addFormat(v);
     }, this));
     this.setHTML(this.root.innerHTML);
   }
