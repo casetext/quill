@@ -8,7 +8,7 @@
 /**
  * @license
  * lodash 3.6.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern include="difference,intersection,last,all,each,invoke,map,reduce,bind,defer,partial,clone,extend,defaults,omit,values,isElement,isEqual,isFunction,isNumber,isObject,isString,uniqueId" --development --output .build/lodash.js`
+ * Build: `lodash modern include="difference,intersection,last,all,each,find,invoke,map,reduce,bind,defer,partial,clone,extend,defaults,omit,values,isElement,isEqual,isFunction,isNumber,isObject,isString,uniqueId" --development --output .build/lodash.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -146,6 +146,28 @@
   var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
 
   /*--------------------------------------------------------------------------*/
+
+  /**
+   * The base implementation of `_.findIndex` and `_.findLastIndex` without
+   * support for callback shorthands and `this` binding.
+   *
+   * @private
+   * @param {Array} array The array to search.
+   * @param {Function} predicate The function invoked per iteration.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function baseFindIndex(array, predicate, fromRight) {
+    var length = array.length,
+        index = fromRight ? length : -1;
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (predicate(array[index], index, array)) {
+        return index;
+      }
+    }
+    return -1;
+  }
 
   /**
    * The base implementation of `_.indexOf` without support for binary searches.
@@ -963,6 +985,30 @@
   }
 
   /**
+   * The base implementation of `_.find`, `_.findLast`, `_.findKey`, and `_.findLastKey`,
+   * without support for callback shorthands and `this` binding, which iterates
+   * over `collection` using the provided `eachFunc`.
+   *
+   * @private
+   * @param {Array|Object|string} collection The collection to search.
+   * @param {Function} predicate The function invoked per iteration.
+   * @param {Function} eachFunc The function to iterate over `collection`.
+   * @param {boolean} [retKey] Specify returning the key of the found element
+   *  instead of the element itself.
+   * @returns {*} Returns the found element or its key, else `undefined`.
+   */
+  function baseFind(collection, predicate, eachFunc, retKey) {
+    var result;
+    eachFunc(collection, function(value, key, collection) {
+      if (predicate(value, key, collection)) {
+        result = retKey ? key : value;
+        return false;
+      }
+    });
+    return result;
+  }
+
+  /**
    * The base implementation of `_.flatten` with added support for restricting
    * flattening and specifying the start index.
    *
@@ -1688,6 +1734,25 @@
       // See https://es5.github.io/#x13.2.2 for more details.
       return isObject(result) ? result : thisBinding;
     };
+  }
+
+  /**
+   * Creates a `_.find` or `_.findLast` function.
+   *
+   * @private
+   * @param {Function} eachFunc The function to iterate over a collection.
+   * @param {boolean} [fromRight] Specify iterating from right to left.
+   * @returns {Function} Returns the new find function.
+   */
+  function createFind(eachFunc, fromRight) {
+    return function(collection, predicate, thisArg) {
+      predicate = getCallback(predicate, thisArg, 3);
+      if (isArray(collection)) {
+        var index = baseFindIndex(collection, predicate, fromRight);
+        return index > -1 ? collection[index] : undefined;
+      }
+      return baseFind(collection, predicate, eachFunc);
+    }
   }
 
   /**
@@ -2766,6 +2831,58 @@
     }
     return func(collection, predicate);
   }
+
+  /**
+   * Iterates over elements of `collection`, returning the first element
+   * `predicate` returns truthy for. The predicate is bound to `thisArg` and
+   * invoked with three arguments: (value, index|key, collection).
+   *
+   * If a property name is provided for `predicate` the created `_.property`
+   * style callback returns the property value of the given element.
+   *
+   * If a value is also provided for `thisArg` the created `_.matchesProperty`
+   * style callback returns `true` for elements that have a matching property
+   * value, else `false`.
+   *
+   * If an object is provided for `predicate` the created `_.matches` style
+   * callback returns `true` for elements that have the properties of the given
+   * object, else `false`.
+   *
+   * @static
+   * @memberOf _
+   * @alias detect
+   * @category Collection
+   * @param {Array|Object|string} collection The collection to search.
+   * @param {Function|Object|string} [predicate=_.identity] The function invoked
+   *  per iteration.
+   * @param {*} [thisArg] The `this` binding of `predicate`.
+   * @returns {*} Returns the matched element, else `undefined`.
+   * @example
+   *
+   * var users = [
+   *   { 'user': 'barney',  'age': 36, 'active': true },
+   *   { 'user': 'fred',    'age': 40, 'active': false },
+   *   { 'user': 'pebbles', 'age': 1,  'active': true }
+   * ];
+   *
+   * _.result(_.find(users, function(chr) {
+   *   return chr.age < 40;
+   * }), 'user');
+   * // => 'barney'
+   *
+   * // using the `_.matches` callback shorthand
+   * _.result(_.find(users, { 'age': 1, 'active': true }), 'user');
+   * // => 'pebbles'
+   *
+   * // using the `_.matchesProperty` callback shorthand
+   * _.result(_.find(users, 'active', false), 'user');
+   * // => 'fred'
+   *
+   * // using the `_.property` callback shorthand
+   * _.result(_.find(users, 'active'), 'user');
+   * // => 'barney'
+   */
+  var find = createFind(baseEach);
 
   /**
    * Iterates over elements of `collection` invoking `iteratee` for each element.
@@ -3916,6 +4033,7 @@
   lodash.clone = clone;
   lodash.escapeRegExp = escapeRegExp;
   lodash.every = every;
+  lodash.find = find;
   lodash.identity = identity;
   lodash.indexOf = indexOf;
   lodash.isArguments = isArguments;
@@ -3937,6 +4055,7 @@
 
   // Add aliases.
   lodash.all = every;
+  lodash.detect = find;
   lodash.foldl = reduce;
   lodash.inject = reduce;
 
@@ -5584,14 +5703,18 @@ LinkedList = _dereq_('../lib/linked-list');
 Normalizer = _dereq_('./normalizer');
 
 Document = (function() {
-  function Document(root, options) {
+  function Document(root, options, formats) {
     this.root = root;
     if (options == null) {
       options = {};
     }
+    if (formats == null) {
+      formats = {};
+    }
     this.normalizer = new Normalizer();
     this.formats = {};
     _.each(options.formats, _.bind(this.addFormat, this));
+    _.each(formats, _.bind(this.addFormat, this));
     this.setHTML(this.root.innerHTML);
   }
 
@@ -5616,7 +5739,7 @@ Document = (function() {
     if (line != null) {
       return line.findLeafAt(offset, inclusive);
     } else {
-      return [null, offset];
+      return [void 0, offset];
     }
   };
 
@@ -5625,25 +5748,25 @@ Document = (function() {
     while ((node != null) && (dom.BLOCK_TAGS[node.tagName] == null)) {
       node = node.parentNode;
     }
-    line = node != null ? this.lineMap[node.id] : null;
+    line = node != null ? dom(node).data(Line.DATA_KEY) : void 0;
     if ((line != null ? line.node : void 0) === node) {
       return line;
     } else {
-      return null;
+      return void 0;
     }
   };
 
   Document.prototype.findLineAt = function(index) {
     var curLine, length;
     if (!(this.lines.length > 0)) {
-      return [null, index];
+      return [void 0, index];
     }
     length = this.toDelta().length();
     if (index === length) {
       return [this.lines.last, this.lines.last.length];
     }
     if (index > length) {
-      return [null, index - length];
+      return [void 0, index - length];
     }
     curLine = this.lines.first;
     while (curLine != null) {
@@ -5653,20 +5776,11 @@ Document = (function() {
       index -= curLine.length;
       curLine = curLine.next;
     }
-    return [null, index];
+    return [void 0, index];
   };
 
   Document.prototype.getHTML = function() {
-    var container, html;
-    html = this.root.innerHTML;
-    html = html.replace(/\>\s+\</g, '>&nbsp;<');
-    container = document.createElement('div');
-    container.innerHTML = html;
-    _.each(container.querySelectorAll("." + Line.CLASS_NAME), function(node) {
-      dom(node).removeClass(Line.CLASS_NAME);
-      return node.removeAttribute('id');
-    });
-    return container.innerHTML;
+    return this.root.innerHTML.replace(/\>\s+\</g, '>&nbsp;<');
   };
 
   Document.prototype.insertLineBefore = function(newLineNode, refLine) {
@@ -5683,7 +5797,6 @@ Document = (function() {
       }
       this.lines.append(line);
     }
-    this.lineMap[line.id] = line;
     return line;
   };
 
@@ -5752,7 +5865,6 @@ Document = (function() {
         dom(line.node).remove();
       }
     }
-    delete this.lineMap[line.id];
     return this.lines.remove(line);
   };
 
@@ -5761,7 +5873,6 @@ Document = (function() {
     html = Normalizer.stripWhitespace(html);
     this.root.innerHTML = html;
     this.lines = new LinkedList();
-    this.lineMap = {};
     return this.rebuild();
   };
 
@@ -5864,7 +5975,7 @@ Editor = (function() {
               _this._insertAt(index, op.insert, op.attributes);
               return index += op.insert.length;
             } else if (_.isNumber(op.insert)) {
-              _this._insertAt(index, dom.EMBED_TEXT, op.attributes);
+              _this._insertEmbed(index, op.attributes);
               return index += 1;
             } else if (_.isNumber(op["delete"])) {
               return _this._deleteAt(index, op["delete"]);
@@ -6004,6 +6115,16 @@ Editor = (function() {
     })(this));
   };
 
+  Editor.prototype._insertEmbed = function(index, attributes) {
+    return this.selection.shiftAfter(index, 1, (function(_this) {
+      return function() {
+        var line, offset, ref;
+        ref = _this.doc.findLineAt(index), line = ref[0], offset = ref[1];
+        return line.insertEmbed(offset, attributes);
+      };
+    })(this));
+  };
+
   Editor.prototype._insertAt = function(index, text, formatting) {
     if (formatting == null) {
       formatting = {};
@@ -6084,7 +6205,8 @@ dom = _dereq_('../lib/dom');
 
 Format = (function() {
   Format.types = {
-    LINE: 'line'
+    LINE: 'line',
+    EMBED: 'embed'
   };
 
   Format.FORMATS = {
@@ -6128,9 +6250,20 @@ Format = (function() {
     },
     link: {
       tag: 'A',
-      attribute: 'href'
+      add: function(node, value) {
+        node.setAttribute('href', value);
+        return node;
+      },
+      remove: function(node) {
+        node.removeAttribute('href');
+        return node;
+      },
+      value: function(node) {
+        return node.getAttribute('href');
+      }
     },
     image: {
+      type: Format.types.EMBED,
       tag: 'IMG',
       attribute: 'src'
     },
@@ -6209,6 +6342,9 @@ Format = (function() {
       if (_.isString(this.config["class"])) {
         dom(node).addClass(this.config["class"] + value);
       }
+    }
+    if (_.isFunction(this.config.add)) {
+      node = this.config.add(node, value);
     }
     return node;
   };
@@ -6289,15 +6425,18 @@ Format = (function() {
           }
         }
         node = dom(node).switchTag(dom.DEFAULT_BLOCK_TAG);
+      } else if (this.isType(Format.types.EMBED)) {
+        dom(node).remove();
+        return void 0;
       } else {
         node = dom(node).switchTag(dom.DEFAULT_INLINE_TAG);
-        if (dom.EMBED_TAGS[this.config.tag] != null) {
-          dom(node).text(dom.EMBED_TEXT);
-        }
       }
     }
     if (_.isString(this.config.parentTag)) {
       dom(node.parentNode).unwrap();
+    }
+    if (_.isFunction(this.config.remove)) {
+      node = this.config.remove(node);
     }
     if (node.tagName === dom.DEFAULT_INLINE_TAG && !node.hasAttributes()) {
       node = dom(node).unwrap();
@@ -6309,6 +6448,9 @@ Format = (function() {
     var c, i, len, ref;
     if (!this.match(node)) {
       return void 0;
+    }
+    if (this.config.value) {
+      return this.config.value(node);
     }
     if (_.isString(this.config.attribute)) {
       return node.getAttribute(this.config.attribute) || void 0;
@@ -6352,7 +6494,7 @@ LinkedList = _dereq_('../lib/linked-list');
 Leaf = (function(superClass) {
   extend(Leaf, superClass);
 
-  Leaf.ID_PREFIX = 'ql-leaf-';
+  Leaf.DATA_KEY = 'leaf';
 
   Leaf.isLeafNode = function(node) {
     return dom(node).isTextNode() || (node.firstChild == null);
@@ -6361,9 +6503,9 @@ Leaf = (function(superClass) {
   function Leaf(node1, formats) {
     this.node = node1;
     this.formats = _.clone(formats);
-    this.id = _.uniqueId(Leaf.ID_PREFIX);
     this.text = dom(this.node).text();
     this.length = this.text.length;
+    dom(this.node).data(Leaf.DATA_KEY, this);
   }
 
   Leaf.prototype.deleteText = function(offset, length) {
@@ -6430,16 +6572,12 @@ Normalizer = _dereq_('./normalizer');
 Line = (function(superClass) {
   extend(Line, superClass);
 
-  Line.CLASS_NAME = 'ql-line';
-
-  Line.ID_PREFIX = 'ql-line-';
+  Line.DATA_KEY = 'line';
 
   function Line(doc, node1) {
     this.doc = doc;
     this.node = node1;
-    this.id = _.uniqueId(Line.ID_PREFIX);
     this.formats = {};
-    dom(this.node).addClass(Line.CLASS_NAME);
     this.rebuild();
     Line.__super__.constructor.call(this, this.node);
   }
@@ -6481,15 +6619,11 @@ Line = (function(superClass) {
   };
 
   Line.prototype.findLeaf = function(leafNode) {
-    var curLeaf;
-    curLeaf = this.leaves.first;
-    while (curLeaf != null) {
-      if (curLeaf.node === leafNode) {
-        return curLeaf;
-      }
-      curLeaf = curLeaf.next;
+    if (leafNode != null) {
+      return dom(leafNode).data(Leaf.DATA_KEY);
+    } else {
+      return void 0;
     }
-    return null;
   };
 
   Line.prototype.findLeafAt = function(offset, inclusive) {
@@ -6585,8 +6719,44 @@ Line = (function(superClass) {
     return this.rebuild();
   };
 
+  Line.prototype._insert = function(offset, node, formats) {
+    var leaf, leafOffset, nextNode, prevNode, ref, ref1;
+    ref = this.findLeafAt(offset), leaf = ref[0], leafOffset = ref[1];
+    node = _.reduce(formats, (function(_this) {
+      return function(node, value, name) {
+        var format;
+        format = _this.doc.formats[name];
+        if (format != null) {
+          node = format.add(node, value);
+        }
+        return node;
+      };
+    })(this), node);
+    ref1 = dom(leaf.node).split(leafOffset), prevNode = ref1[0], nextNode = ref1[1];
+    if (nextNode) {
+      nextNode = dom(nextNode).splitBefore(this.node).get();
+    }
+    this.node.insertBefore(node, nextNode);
+    return this.rebuild();
+  };
+
+  Line.prototype.insertEmbed = function(offset, attributes) {
+    var formatName, leaf, leafOffset, nextNode, node, prevNode, ref, ref1;
+    ref = this.findLeafAt(offset), leaf = ref[0], leafOffset = ref[1];
+    ref1 = dom(leaf.node).split(leafOffset), prevNode = ref1[0], nextNode = ref1[1];
+    formatName = _.find(Object.keys(attributes), (function(_this) {
+      return function(name) {
+        return _this.doc.formats[name].isType(Format.types.EMBED);
+      };
+    })(this));
+    node = this.doc.formats[formatName].add({}, attributes[formatName]);
+    attributes = _.clone(attributes);
+    delete attributes[formatName];
+    return this._insert(offset, node, attributes);
+  };
+
   Line.prototype.insertText = function(offset, text, formats) {
-    var leaf, leafOffset, nextNode, node, prevNode, ref, ref1;
+    var leaf, leafOffset, ref;
     if (formats == null) {
       formats = {};
     }
@@ -6594,26 +6764,11 @@ Line = (function(superClass) {
       return;
     }
     ref = this.findLeafAt(offset), leaf = ref[0], leafOffset = ref[1];
-    if (_.isEqual(leaf.formats, formats) && text !== dom.EMBED_TEXT) {
+    if (_.isEqual(leaf.formats, formats)) {
       leaf.insertText(leafOffset, text);
       return this.resetContent();
     } else {
-      node = _.reduce(formats, (function(_this) {
-        return function(node, value, name) {
-          var format;
-          format = _this.doc.formats[name];
-          if (format != null) {
-            node = format.add(node, value);
-          }
-          return node;
-        };
-      })(this), document.createTextNode(text));
-      ref1 = dom(leaf.node).split(leafOffset), prevNode = ref1[0], nextNode = ref1[1];
-      if (nextNode) {
-        nextNode = dom(nextNode).splitBefore(this.node).get();
-      }
-      this.node.insertBefore(node, nextNode);
-      return this.rebuild();
+      return this._insert(offset, document.createTextNode(text), formats);
     }
   };
 
@@ -6658,9 +6813,7 @@ Line = (function(superClass) {
   };
 
   Line.prototype.resetContent = function() {
-    if (this.node.id !== this.id) {
-      this.node.id = this.id;
-    }
+    dom(this.node).data(Line.DATA_KEY, this);
     this.outerHTML = this.node.outerHTML;
     this.length = 1;
     this.delta = new Delta();
@@ -7288,6 +7441,19 @@ Wrapper = (function() {
 
   Wrapper.prototype.classes = function() {
     return this.node.className.split(/\s+/);
+  };
+
+  Wrapper.prototype.data = function(key, value) {
+    var ref;
+    if (value != null) {
+      if (this.node['ql-data'] == null) {
+        this.node['ql-data'] = {};
+      }
+      this.node['ql-data'][key] = value;
+      return this;
+    } else {
+      return (ref = this.node['ql-data']) != null ? ref[key] : void 0;
+    }
   };
 
   Wrapper.prototype.descendants = function() {
@@ -7979,13 +8145,11 @@ module.exports = LinkedList;
 
 
 },{}],19:[function(_dereq_,module,exports){
-var Normalizer, Picker, _, dom;
+var Picker, _, dom;
 
 _ = _dereq_('lodash');
 
 dom = _dereq_('./dom');
-
-Normalizer = _dereq_('../core/normalizer');
 
 Picker = (function() {
   Picker.TEMPLATE = '<span class="ql-picker-label"></span><span class="ql-picker-options"></span>';
@@ -8047,7 +8211,7 @@ Picker = (function() {
         return _this.container.setAttribute(name, value);
       };
     })(this));
-    this.container.innerHTML = Normalizer.stripWhitespace(Picker.TEMPLATE);
+    this.container.innerHTML = Picker.TEMPLATE;
     this.label = this.container.querySelector('.ql-picker-label');
     picker = this.container.querySelector('.ql-picker-options');
     return _.each(this.select.options, (function(_this) {
@@ -8089,7 +8253,7 @@ module.exports = Picker;
 
 
 
-},{"../core/normalizer":13,"./dom":17,"lodash":1}],20:[function(_dereq_,module,exports){
+},{"./dom":17,"lodash":1}],20:[function(_dereq_,module,exports){
 var Range, _;
 
 _ = _dereq_('lodash');
@@ -8401,7 +8565,11 @@ Keyboard = (function() {
     this.hotkeys = {};
     this._initListeners();
     this._initHotkeys();
-    this._initDeletes();
+    this.quill.onModuleLoad('toolbar', (function(_this) {
+      return function(toolbar) {
+        return _this.toolbar = toolbar;
+      };
+    })(this));
   }
 
   Keyboard.prototype.addHotkey = function(hotkeys, callback) {
@@ -8425,7 +8593,7 @@ Keyboard = (function() {
   };
 
   Keyboard.prototype.toggleFormat = function(range, format) {
-    var delta, toolbar, value;
+    var delta, value;
     if (range.isCollapsed()) {
       delta = this.quill.getContents(Math.max(0, range.start - 1), range.end);
     } else {
@@ -8440,10 +8608,38 @@ Keyboard = (function() {
     } else {
       this.quill.formatText(range, format, value, Quill.sources.USER);
     }
-    toolbar = this.quill.getModule('toolbar');
-    if (toolbar != null) {
-      return toolbar.setActive(format, value);
+    if (this.toolbar != null) {
+      return this.toolbar.setActive(format, value);
     }
+  };
+
+  Keyboard.prototype._initEnter = function() {
+    var keys;
+    keys = [
+      {
+        key: dom.KEYS.ENTER
+      }, {
+        key: dom.KEYS.ENTER,
+        shiftKey: true
+      }
+    ];
+    return this.addHotkey(keys, (function(_this) {
+      return function(range, hotkey) {
+        var delta, leaf, line, offset, ref, ref1;
+        if (range == null) {
+          return true;
+        }
+        ref = _this.quill.editor.doc.findLineAt(range.start), line = ref[0], offset = ref[1];
+        ref1 = line.findLeafAt(offset), leaf = ref1[0], offset = ref1[1];
+        delta = new Delta().retain(range.start).insert('\n', line.formats)["delete"](range.end - range.start);
+        _this.quill.updateContents(delta, Quill.sources.USER);
+        _.each(leaf.formats, function(value, format) {
+          _this.quill.prepareFormat(format, value);
+          return _this.toolbar.setActive(format, value);
+        });
+        return false;
+      };
+    })(this));
   };
 
   Keyboard.prototype._initDeletes = function() {
@@ -8457,7 +8653,7 @@ Keyboard = (function() {
             if (hotkey.key === dom.KEYS.BACKSPACE) {
               ref = _this.quill.editor.doc.findLineAt(range.start), line = ref[0], offset = ref[1];
               if (offset === 0 && (line.formats.bullet || line.formats.list)) {
-                format = line.format.bullet ? 'bullet' : 'list';
+                format = line.formats.bullet ? 'bullet' : 'list';
                 _this.quill.formatLine(range.start, range.start, format, false);
               } else if (range.start > 0) {
                 _this.quill.deleteText(range.start - 1, range.start, Quill.sources.USER);
@@ -8484,7 +8680,7 @@ Keyboard = (function() {
         return false;
       };
     })(this));
-    return _.each(['bold', 'italic', 'underline'], (function(_this) {
+    _.each(['bold', 'italic', 'underline'], (function(_this) {
       return function(format) {
         return _this.addHotkey(Keyboard.hotkeys[format.toUpperCase()], function(range) {
           _this.toggleFormat(range, format);
@@ -8492,6 +8688,8 @@ Keyboard = (function() {
         });
       };
     })(this));
+    this._initDeletes();
+    return this._initEnter();
   };
 
   Keyboard.prototype._initListeners = function() {
@@ -8945,7 +9143,7 @@ PasteManager = (function() {
     return _.defer((function(_this) {
       return function() {
         var delta, doc, lengthAdded, line, lineBottom, offset, ref, windowBottom;
-        doc = new Document(_this.container, _this.quill.options);
+        doc = new Document(_this.container, _this.quill.options, _this.quill.editor.doc.formats);
         delta = doc.toDelta();
         lengthAdded = delta.length() - 1;
         delta.compose(new Delta().retain(lengthAdded)["delete"](1));
@@ -9061,7 +9259,7 @@ Toolbar = (function() {
     })(this));
     this.quill.onModuleLoad('keyboard', (function(_this) {
       return function(keyboard) {
-        return keyboard.addHotkey([dom.KEYS.BACKSPACE, dom.KEYS.DELETE, dom.KEYS.ENTER], function() {
+        return keyboard.addHotkey([dom.KEYS.BACKSPACE, dom.KEYS.DELETE], function() {
           return _.defer(_.bind(_this.updateActive, _this));
         });
       };
@@ -9111,6 +9309,9 @@ Toolbar = (function() {
 
   Toolbar.prototype.setActive = function(format, value) {
     var $input, input, ref, selectValue;
+    if (format === 'image') {
+      value = false;
+    }
     input = this.inputs[format];
     if (input == null) {
       return;
@@ -9264,15 +9465,13 @@ module.exports = Toolbar;
 
 
 },{"../quill":30}],28:[function(_dereq_,module,exports){
-var Normalizer, Quill, Tooltip, _, dom;
+var Quill, Tooltip, _, dom;
 
 Quill = _dereq_('../quill');
 
 _ = Quill.require('lodash');
 
 dom = Quill.require('dom');
-
-Normalizer = Quill.require('normalizer');
 
 Tooltip = (function() {
   Tooltip.DEFAULTS = {
@@ -9286,7 +9485,7 @@ Tooltip = (function() {
     this.quill = quill;
     this.options = options;
     this.container = this.quill.addContainer('ql-tooltip');
-    this.container.innerHTML = Normalizer.stripWhitespace(this.options.template);
+    this.container.innerHTML = this.options.template;
     this.hide();
     this.quill.on(this.quill.constructor.events.TEXT_CHANGE, (function(_this) {
       return function(delta, source) {
@@ -9596,6 +9795,8 @@ Quill = (function(superClass) {
         return _;
       case 'delta':
         return Delta;
+      case 'format':
+        return Format;
       case 'normalizer':
         return Normalizer;
       case 'dom':
@@ -9792,7 +9993,10 @@ Quill = (function(superClass) {
   };
 
   Quill.prototype.insertEmbed = function(index, type, url, source) {
-    return this.insertText(index, dom.EMBED_TEXT, type, url, source);
+    var delta, end, formats, ref;
+    ref = this._buildParams(index, 0, type, url, source), index = ref[0], end = ref[1], formats = ref[2], source = ref[3];
+    delta = new Delta().retain(index).insert(1, formats);
+    return this.editor.applyDelta(delta, source);
   };
 
   Quill.prototype.insertText = function(index, text, name, value, source) {

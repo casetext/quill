@@ -8,10 +8,11 @@ Normalizer = require('./normalizer')
 
 
 class Document
-  constructor: (@root, options = {}) ->
+  constructor: (@root, options = {}, formats = {}) ->
     @normalizer = new Normalizer()
     @formats = {}
     _.each(options.formats, _.bind(this.addFormat, this))
+    _.each(formats, _.bind(this.addFormat, this))
     this.setHTML(@root.innerHTML)
 
   addFormat: (name, config) ->
