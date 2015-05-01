@@ -98,6 +98,12 @@ class Format
       exclude: ['h1', 'h2', 'bullet', 'list', 'blockquote']
       tag: 'H3'
 
+    opacity:
+      style: 'opacity'
+      default: '1'
+
+
+
 
   constructor: (@config) ->
 
