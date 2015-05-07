@@ -102,6 +102,11 @@ class Format
       style: 'opacity'
       default: '1'
 
+    pdf:
+      type: Format.types.EMBED
+      tag: 'IFRAME'
+      attribute: 'src'
+
 
 
 
