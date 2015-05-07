@@ -6518,6 +6518,11 @@ Format = (function() {
     opacity: {
       style: 'opacity',
       "default": '1'
+    },
+    pdf: {
+      type: Format.types.EMBED,
+      tag: 'IFRAME',
+      attribute: 'src'
     }
   };
 
@@ -8225,6 +8230,7 @@ dom = _.extend(dom, {
     'VIDEO': 'VIDEO'
   },
   EMBED_TAGS: {
+    'IFRAME': 'IFRAME',
     'IMG': 'IMG'
   },
   LINE_TAGS: {
@@ -8243,6 +8249,7 @@ dom = _.extend(dom, {
     'COMMAND': 'COMMAND',
     'EMBED': 'EMBED',
     'HR': 'HR',
+    'IFRAME': 'IFRAME',
     'IMG': 'IMG',
     'INPUT': 'INPUT',
     'KEYGEN': 'KEYGEN',
