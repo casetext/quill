@@ -6757,6 +6757,7 @@ Leaf = (function(superClass) {
     this.length = this.text.length;
     if (dom.EMBED_TAGS[this.node.tagName] != null) {
       textNode = document.createTextNode(this.text);
+      dom(textNode).data(Leaf.DATA_KEY, this);
       return this.node = dom(this.node).replace(textNode);
     } else {
       return dom(this.node).text(this.text);
@@ -6770,6 +6771,7 @@ Leaf = (function(superClass) {
       dom(this.node).text(this.text);
     } else {
       textNode = document.createTextNode(text);
+      dom(textNode).data(Leaf.DATA_KEY, this);
       if (this.node.tagName === dom.DEFAULT_BREAK_TAG) {
         this.node = dom(this.node).replace(textNode);
       } else {
