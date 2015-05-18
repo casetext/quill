@@ -1,9 +1,9 @@
-/*! Quill Editor v0.19.11
+/*! Quill Editor v0.19.12
  *  https://quilljs.com/
  *  Copyright (c) 2014, Jason Chen
  *  Copyright (c) 2013, salesforce.com
  */
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Quill = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Quill = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -4324,7 +4324,7 @@
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(_dereq_,module,exports){
+},{}],2:[function(require,module,exports){
 /*!
  * EventEmitter2
  * https://github.com/hij1nx/EventEmitter2
@@ -4899,10 +4899,10 @@
   }
 }();
 
-},{}],3:[function(_dereq_,module,exports){
-var diff = _dereq_('fast-diff');
-var is = _dereq_('./is');
-var op = _dereq_('./op');
+},{}],3:[function(require,module,exports){
+var diff = require('fast-diff');
+var is = require('./is');
+var op = require('./op');
 
 
 var NULL_CHARACTER = String.fromCharCode(0);  // Placeholder char for embed in diff()
@@ -5144,7 +5144,7 @@ Delta.prototype.transformPosition = function (index, priority) {
 
 module.exports = Delta;
 
-},{"./is":4,"./op":5,"fast-diff":6}],4:[function(_dereq_,module,exports){
+},{"./is":4,"./op":5,"fast-diff":6}],4:[function(require,module,exports){
 module.exports = {
   equal: function (a, b) {
     if (a === b) return true;
@@ -5180,8 +5180,8 @@ module.exports = {
   }
 };
 
-},{}],5:[function(_dereq_,module,exports){
-var is = _dereq_('./is');
+},{}],5:[function(require,module,exports){
+var is = require('./is');
 
 
 var lib = {
@@ -5326,7 +5326,7 @@ Iterator.prototype.peekType = function () {
 
 module.exports = lib;
 
-},{"./is":4}],6:[function(_dereq_,module,exports){
+},{"./is":4}],6:[function(require,module,exports){
 /**
  * This library modifies the diff-patch-match library by Neil Fraser
  * by removing the patch and match functionality and certain advanced
@@ -5898,24 +5898,24 @@ diff.EQUAL = DIFF_EQUAL;
 
 module.exports = diff;
 
-},{}],7:[function(_dereq_,module,exports){
-module.exports={"version":"0.19.11"}
-},{}],8:[function(_dereq_,module,exports){
+},{}],7:[function(require,module,exports){
+module.exports={"version":"0.19.12"}
+},{}],8:[function(require,module,exports){
 var Delta, Document, Format, Line, LinkedList, Normalizer, _, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-Delta = _dereq_('rich-text/lib/delta');
+Delta = require('rich-text/lib/delta');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
-Format = _dereq_('./format');
+Format = require('./format');
 
-Line = _dereq_('./line');
+Line = require('./line');
 
-LinkedList = _dereq_('../lib/linked-list');
+LinkedList = require('../lib/linked-list');
 
-Normalizer = _dereq_('./normalizer');
+Normalizer = require('./normalizer');
 
 Document = (function() {
   function Document(root, options) {
@@ -6119,18 +6119,18 @@ module.exports = Document;
 
 
 
-},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"./line":12,"./normalizer":13,"lodash":1,"rich-text/lib/delta":3}],9:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"./line":12,"./normalizer":13,"lodash":1,"rich-text/lib/delta":3}],9:[function(require,module,exports){
 var Document, Editor, Line, Selection, _, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
-Document = _dereq_('./document');
+Document = require('./document');
 
-Line = _dereq_('./line');
+Line = require('./line');
 
-Selection = _dereq_('./selection');
+Selection = require('./selection');
 
 Editor = (function() {
   Editor.sources = {
@@ -6407,12 +6407,12 @@ module.exports = Editor;
 
 
 
-},{"../lib/dom":17,"./document":8,"./line":12,"./selection":14,"lodash":1}],10:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"./document":8,"./line":12,"./selection":14,"lodash":1}],10:[function(require,module,exports){
 var Format, _, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
 Format = (function() {
   Format.types = {
@@ -6720,18 +6720,18 @@ module.exports = Format;
 
 
 
-},{"../lib/dom":17,"lodash":1}],11:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"lodash":1}],11:[function(require,module,exports){
 var Format, Leaf, LinkedList, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
-Format = _dereq_('./format');
+Format = require('./format');
 
-LinkedList = _dereq_('../lib/linked-list');
+LinkedList = require('../lib/linked-list');
 
 Leaf = (function(superClass) {
   extend(Leaf, superClass);
@@ -6792,26 +6792,26 @@ module.exports = Leaf;
 
 
 
-},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"lodash":1}],12:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"lodash":1}],12:[function(require,module,exports){
 var Delta, Format, Leaf, Line, LinkedList, Normalizer, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-Delta = _dereq_('rich-text/lib/delta');
+Delta = require('rich-text/lib/delta');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
-Format = _dereq_('./format');
+Format = require('./format');
 
-Leaf = _dereq_('./leaf');
+Leaf = require('./leaf');
 
-Line = _dereq_('./line');
+Line = require('./line');
 
-LinkedList = _dereq_('../lib/linked-list');
+LinkedList = require('../lib/linked-list');
 
-Normalizer = _dereq_('./normalizer');
+Normalizer = require('./normalizer');
 
 Line = (function(superClass) {
   extend(Line, superClass);
@@ -7082,12 +7082,12 @@ module.exports = Line;
 
 
 
-},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"./leaf":11,"./line":12,"./normalizer":13,"lodash":1,"rich-text/lib/delta":3}],13:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"../lib/linked-list":18,"./format":10,"./leaf":11,"./line":12,"./normalizer":13,"lodash":1,"rich-text/lib/delta":3}],13:[function(require,module,exports){
 var Normalizer, _, camelize, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
 camelize = function(str) {
   str = str.replace(/(?:^|[-_])(\w)/g, function(i, c) {
@@ -7318,18 +7318,18 @@ module.exports = Normalizer;
 
 
 
-},{"../lib/dom":17,"lodash":1}],14:[function(_dereq_,module,exports){
+},{"../lib/dom":17,"lodash":1}],14:[function(require,module,exports){
 var Leaf, Normalizer, Range, Selection, _, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../lib/dom');
+dom = require('../lib/dom');
 
-Leaf = _dereq_('./leaf');
+Leaf = require('./leaf');
 
-Normalizer = _dereq_('./normalizer');
+Normalizer = require('./normalizer');
 
-Range = _dereq_('../lib/range');
+Range = require('../lib/range');
 
 Selection = (function() {
   function Selection(doc, emitter) {
@@ -7553,37 +7553,37 @@ module.exports = Selection;
 
 
 
-},{"../lib/dom":17,"../lib/range":20,"./leaf":11,"./normalizer":13,"lodash":1}],15:[function(_dereq_,module,exports){
-_dereq_('./modules/authorship');
+},{"../lib/dom":17,"../lib/range":20,"./leaf":11,"./normalizer":13,"lodash":1}],15:[function(require,module,exports){
+require('./modules/authorship');
 
-_dereq_('./modules/image-tooltip');
+require('./modules/image-tooltip');
 
-_dereq_('./modules/keyboard');
+require('./modules/keyboard');
 
-_dereq_('./modules/link-tooltip');
+require('./modules/link-tooltip');
 
-_dereq_('./modules/multi-cursor');
+require('./modules/multi-cursor');
 
-_dereq_('./modules/paste-manager');
+require('./modules/paste-manager');
 
-_dereq_('./modules/toolbar');
+require('./modules/toolbar');
 
-_dereq_('./modules/tooltip');
+require('./modules/tooltip');
 
-_dereq_('./modules/undo-manager');
+require('./modules/undo-manager');
 
-module.exports = _dereq_('./quill');
+module.exports = require('./quill');
 
 
 
-},{"./modules/authorship":21,"./modules/image-tooltip":22,"./modules/keyboard":23,"./modules/link-tooltip":24,"./modules/multi-cursor":25,"./modules/paste-manager":26,"./modules/toolbar":27,"./modules/tooltip":28,"./modules/undo-manager":29,"./quill":30}],16:[function(_dereq_,module,exports){
+},{"./modules/authorship":21,"./modules/image-tooltip":22,"./modules/keyboard":23,"./modules/link-tooltip":24,"./modules/multi-cursor":25,"./modules/paste-manager":26,"./modules/toolbar":27,"./modules/tooltip":28,"./modules/undo-manager":29,"./quill":30}],16:[function(require,module,exports){
 var ColorPicker, Picker, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-dom = _dereq_('./dom');
+dom = require('./dom');
 
-Picker = _dereq_('./picker');
+Picker = require('./picker');
 
 ColorPicker = (function(superClass) {
   extend(ColorPicker, superClass);
@@ -7608,13 +7608,13 @@ module.exports = ColorPicker;
 
 
 
-},{"./dom":17,"./picker":19}],17:[function(_dereq_,module,exports){
+},{"./dom":17,"./picker":19}],17:[function(require,module,exports){
 var SelectWrapper, Wrapper, _, dom, lastKeyEvent,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
 lastKeyEvent = null;
 
@@ -8298,7 +8298,7 @@ module.exports = dom;
 
 
 
-},{"lodash":1}],18:[function(_dereq_,module,exports){
+},{"lodash":1}],18:[function(require,module,exports){
 var LinkedList, Node;
 
 Node = (function() {
@@ -8390,12 +8390,12 @@ module.exports = LinkedList;
 
 
 
-},{}],19:[function(_dereq_,module,exports){
+},{}],19:[function(require,module,exports){
 var Picker, _, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('./dom');
+dom = require('./dom');
 
 Picker = (function() {
   Picker.TEMPLATE = '<span class="ql-picker-label"></span><span class="ql-picker-options"></span>';
@@ -8499,10 +8499,10 @@ module.exports = Picker;
 
 
 
-},{"./dom":17,"lodash":1}],20:[function(_dereq_,module,exports){
+},{"./dom":17,"lodash":1}],20:[function(require,module,exports){
 var Range, _;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
 Range = (function() {
   Range.compare = function(r1, r2) {
@@ -8553,10 +8553,10 @@ module.exports = Range;
 
 
 
-},{"lodash":1}],21:[function(_dereq_,module,exports){
+},{"lodash":1}],21:[function(require,module,exports){
 var Authorship, Delta, Quill, _, dom;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
 _ = Quill.require('lodash');
 
@@ -8654,14 +8654,14 @@ module.exports = Authorship;
 
 
 
-},{"../quill":30}],22:[function(_dereq_,module,exports){
+},{"../quill":30}],22:[function(require,module,exports){
 var Delta, ImageTooltip, Quill, Range, Tooltip, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
-Tooltip = _dereq_('./tooltip');
+Tooltip = require('./tooltip');
 
 _ = Quill.require('lodash');
 
@@ -8772,10 +8772,10 @@ module.exports = ImageTooltip;
 
 
 
-},{"../quill":30,"./tooltip":28}],23:[function(_dereq_,module,exports){
+},{"../quill":30,"./tooltip":28}],23:[function(require,module,exports){
 var Delta, Keyboard, Quill, _, dom;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
 _ = Quill.require('lodash');
 
@@ -8985,14 +8985,14 @@ module.exports = Keyboard;
 
 
 
-},{"../quill":30}],24:[function(_dereq_,module,exports){
+},{"../quill":30}],24:[function(require,module,exports){
 var LinkTooltip, Quill, Tooltip, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
-Tooltip = _dereq_('./tooltip');
+Tooltip = require('./tooltip');
 
 _ = Quill.require('lodash');
 
@@ -9190,14 +9190,14 @@ module.exports = LinkTooltip;
 
 
 
-},{"../quill":30,"./tooltip":28}],25:[function(_dereq_,module,exports){
+},{"../quill":30,"./tooltip":28}],25:[function(require,module,exports){
 var EventEmitter2, MultiCursor, Quill, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
-EventEmitter2 = _dereq_('eventemitter2').EventEmitter2;
+EventEmitter2 = require('eventemitter2').EventEmitter2;
 
 _ = Quill.require('lodash');
 
@@ -9358,12 +9358,12 @@ module.exports = MultiCursor;
 
 
 
-},{"../quill":30,"eventemitter2":2}],26:[function(_dereq_,module,exports){
+},{"../quill":30,"eventemitter2":2}],26:[function(require,module,exports){
 var Delta, Document, PasteManager, Quill, _, dom;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
-Document = _dereq_('../core/document');
+Document = require('../core/document');
 
 _ = Quill.require('lodash');
 
@@ -9424,10 +9424,10 @@ module.exports = PasteManager;
 
 
 
-},{"../core/document":8,"../quill":30}],27:[function(_dereq_,module,exports){
+},{"../core/document":8,"../quill":30}],27:[function(require,module,exports){
 var Quill, Toolbar, _, dom;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
 _ = Quill.require('lodash');
 
@@ -9717,10 +9717,10 @@ module.exports = Toolbar;
 
 
 
-},{"../quill":30}],28:[function(_dereq_,module,exports){
+},{"../quill":30}],28:[function(require,module,exports){
 var Quill, Tooltip, _, dom;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
 _ = Quill.require('lodash');
 
@@ -9776,20 +9776,20 @@ Tooltip = (function() {
   };
 
   Tooltip.prototype.position = function(reference) {
-    var left, offsetLeft, offsetTop, parentBounds, referenceBounds, tooltipBounds, top;
+    var left, offsetBottom, offsetLeft, offsetTop, parentBounds, referenceBounds, top;
     if (reference != null) {
-      tooltipBounds = this.container.getBoundingClientRect();
       referenceBounds = reference.getBoundingClientRect();
       parentBounds = this.quill.container.getBoundingClientRect();
       offsetLeft = referenceBounds.left - parentBounds.left;
       offsetTop = referenceBounds.top - parentBounds.top;
-      left = offsetLeft + referenceBounds.width / 2 - tooltipBounds.width / 2;
+      offsetBottom = referenceBounds.bottom - parentBounds.bottom;
+      left = offsetLeft + referenceBounds.width / 2 - this.container.offsetWidth / 2;
       top = offsetTop + referenceBounds.height + this.options.offset;
-      if (top + tooltipBounds.height > parentBounds.height) {
-        top = offsetTop - tooltipBounds.height - this.options.offset;
+      if (top + this.container.offsetHeight > this.quill.container.offsetHeight) {
+        top = offsetTop - this.container.offsetHeight - this.options.offset;
       }
-      left = Math.max(-parentBounds.left, Math.min(left, parentBounds.width - tooltipBounds.width));
-      top = Math.max(-parentBounds.top, Math.min(top, parentBounds.height - tooltipBounds.height));
+      left = Math.max(0, Math.min(left, this.quill.container.offsetWidth - this.container.offsetWidth));
+      top = Math.max(0, Math.min(top, this.quill.container.offsetHeight - this.container.offsetHeight));
     } else {
       left = this.quill.container.offsetWidth / 2 - this.container.offsetWidth / 2;
       top = this.quill.container.offsetHeight / 2 - this.container.offsetHeight / 2;
@@ -9817,10 +9817,10 @@ module.exports = Tooltip;
 
 
 
-},{"../quill":30}],29:[function(_dereq_,module,exports){
+},{"../quill":30}],29:[function(require,module,exports){
 var Delta, Quill, UndoManager, _;
 
-Quill = _dereq_('../quill');
+Quill = require('../quill');
 
 _ = Quill.require('lodash');
 
@@ -9969,29 +9969,29 @@ module.exports = UndoManager;
 
 
 
-},{"../quill":30}],30:[function(_dereq_,module,exports){
+},{"../quill":30}],30:[function(require,module,exports){
 var Delta, Editor, EventEmitter2, Format, Normalizer, Quill, Range, _, dom, pkg,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty,
   slice = [].slice;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-pkg = _dereq_('../package.json');
+pkg = require('../package.json');
 
-Delta = _dereq_('rich-text/lib/delta');
+Delta = require('rich-text/lib/delta');
 
-EventEmitter2 = _dereq_('eventemitter2').EventEmitter2;
+EventEmitter2 = require('eventemitter2').EventEmitter2;
 
-dom = _dereq_('./lib/dom');
+dom = require('./lib/dom');
 
-Editor = _dereq_('./core/editor');
+Editor = require('./core/editor');
 
-Format = _dereq_('./core/format');
+Format = require('./core/format');
 
-Normalizer = _dereq_('./core/normalizer');
+Normalizer = require('./core/normalizer');
 
-Range = _dereq_('./lib/range');
+Range = require('./lib/range');
 
 Quill = (function(superClass) {
   extend(Quill, superClass);
@@ -10378,24 +10378,24 @@ Quill = (function(superClass) {
 
 })(EventEmitter2);
 
-Quill.registerTheme('base', _dereq_('./themes/base'));
+Quill.registerTheme('base', require('./themes/base'));
 
-Quill.registerTheme('snow', _dereq_('./themes/snow'));
+Quill.registerTheme('snow', require('./themes/snow'));
 
 module.exports = Quill;
 
 
 
-},{"../package.json":7,"./core/editor":9,"./core/format":10,"./core/normalizer":13,"./lib/dom":17,"./lib/range":20,"./themes/base":32,"./themes/snow":33,"eventemitter2":2,"lodash":1,"rich-text/lib/delta":3}],31:[function(_dereq_,module,exports){
+},{"../package.json":7,"./core/editor":9,"./core/format":10,"./core/normalizer":13,"./lib/dom":17,"./lib/range":20,"./themes/base":32,"./themes/snow":33,"eventemitter2":2,"lodash":1,"rich-text/lib/delta":3}],31:[function(require,module,exports){
 module.exports = ".ql-image-tooltip{padding:10px;width:300px}.ql-image-tooltip:after{clear:both;content:\"\";display:table}.ql-image-tooltip a{border:1px solid #000;box-sizing:border-box;display:inline-block;float:left;padding:5px;text-align:center;width:50%}.ql-image-tooltip img{bottom:0;left:0;margin:auto;max-height:100%;max-width:100%;position:absolute;right:0;top:0}.ql-image-tooltip .input{box-sizing:border-box;width:100%}.ql-image-tooltip .preview{margin:10px 0;position:relative;border:1px dashed #000;height:200px}.ql-image-tooltip .preview span{display:inline-block;position:absolute;text-align:center;top:40%;width:100%}.ql-link-tooltip{padding:5px 10px}.ql-link-tooltip input.input{width:170px}.ql-link-tooltip a.done,.ql-link-tooltip input.input{display:none}.ql-link-tooltip a.change{margin-right:4px}.ql-link-tooltip.editing a.done,.ql-link-tooltip.editing input.input{display:inline-block}.ql-link-tooltip.editing a.change,.ql-link-tooltip.editing a.remove,.ql-link-tooltip.editing a.url{display:none}.ql-multi-cursor{position:absolute;left:0;top:0;z-index:1000}.ql-multi-cursor .cursor{margin-left:-1px;position:absolute}.ql-multi-cursor .cursor-flag{bottom:100%;position:absolute;white-space:nowrap}.ql-multi-cursor .cursor-name{display:inline-block;color:#fff;padding:2px 8px}.ql-multi-cursor .cursor-caret{height:100%;position:absolute;width:2px}.ql-multi-cursor .cursor.hidden .cursor-flag{display:none}.ql-multi-cursor .cursor.top .cursor-flag{bottom:auto;top:100%}.ql-multi-cursor .cursor.right .cursor-flag{right:-2px}.ql-paste-manager{left:-100000px;position:absolute;top:50%}.ql-toolbar{box-sizing:border-box}.ql-tooltip{background-color:#fff;border:1px solid #000;box-sizing:border-box;position:absolute;top:0;white-space:nowrap;z-index:2000}.ql-tooltip a{cursor:pointer;text-decoration:none}.ql-container{box-sizing:border-box;cursor:text;font-family:Helvetica,Arial,sans-serif;font-size:13px;height:100%;line-height:1.42;margin:0;overflow-x:hidden;overflow-y:auto;padding:12px 15px;position:relative}.ql-editor{box-sizing:border-box;min-height:100%;outline:0;tab-size:4;white-space:pre-wrap}.ql-editor div{margin:0;padding:0}.ql-editor a{text-decoration:underline}.ql-editor b{font-weight:700}.ql-editor i{font-style:italic}.ql-editor s{text-decoration:line-through}.ql-editor u{text-decoration:underline}.ql-editor a,.ql-editor b,.ql-editor i,.ql-editor s,.ql-editor span,.ql-editor u{background-color:inherit}.ql-editor img{max-width:100%}.ql-editor blockquote,.ql-editor ol,.ql-editor ul{margin:0 0 0 2em;padding:0}.ql-editor ol{list-style-type:decimal}.ql-editor ul{list-style-type:disc}.ql-editor.ql-ie-10 br,.ql-editor.ql-ie-9 br{display:none}";
-},{}],32:[function(_dereq_,module,exports){
+},{}],32:[function(require,module,exports){
 var BaseTheme, _, baseStyles, dom;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-dom = _dereq_('../../lib/dom');
+dom = require('../../lib/dom');
 
-baseStyles = _dereq_('./base.styl');
+baseStyles = require('./base.styl');
 
 BaseTheme = (function() {
   BaseTheme.OPTIONS = {};
@@ -10443,20 +10443,20 @@ module.exports = BaseTheme;
 
 
 
-},{"../../lib/dom":17,"./base.styl":31,"lodash":1}],33:[function(_dereq_,module,exports){
+},{"../../lib/dom":17,"./base.styl":31,"lodash":1}],33:[function(require,module,exports){
 var BaseTheme, ColorPicker, Picker, SnowTheme, _, dom,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-_ = _dereq_('lodash');
+_ = require('lodash');
 
-ColorPicker = _dereq_('../../lib/color-picker');
+ColorPicker = require('../../lib/color-picker');
 
-BaseTheme = _dereq_('../base');
+BaseTheme = require('../base');
 
-dom = _dereq_('../../lib/dom');
+dom = require('../../lib/dom');
 
-Picker = _dereq_('../../lib/picker');
+Picker = require('../../lib/picker');
 
 SnowTheme = (function(superClass) {
   extend(SnowTheme, superClass);
