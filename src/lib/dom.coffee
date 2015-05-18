@@ -414,6 +414,7 @@ dom = _.extend(dom,
   }
 
   EMBED_TAGS: {
+    'IFRAME'
     'IMG'
   }
 
@@ -435,6 +436,7 @@ dom = _.extend(dom,
     'COMMAND'
     'EMBED'
     'HR'
+    'IFRAME'
     'IMG'
     'INPUT'
     'KEYGEN'
