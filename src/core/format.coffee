@@ -104,6 +104,10 @@ class Format
     dashedUnderline:
       class: 'dashed-underline'
 
+    opacity:
+      style: 'opacity'
+      default: '1'
+
     pdf:
       type: Format.types.EMBED
       tag: 'IFRAME'
