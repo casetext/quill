@@ -1,3 +1,5 @@
+request = require('request-promise')
+
 module.exports = (grunt) ->
   grunt.config('grunt-release',
     options:
@@ -7,7 +9,19 @@ module.exports = (grunt) ->
       github:
         repo: 'casetext/quill'
         usernameVar: 'GITHUB_TOKEN',
-        passwordVar: 'THIS_VAR_SHOULD_BE_EMPTY'
+        passwordVar: 'EMPTY_STRING'
+  )
+
+
+
+  grunt.registerTask('github-release', 'upload release build to github', ['release'], ->
+    request.get({
+      url: 'https://api.github.com/repos/' + options.repository + '/releases'
+      auth: {
+        user: process.env.GITHUB_TOKEN
+        pass: ''
+      }
+    }).then()
   )
 
   grunt.config('github-release',
