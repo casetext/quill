@@ -7,6 +7,7 @@ module.exports = (grunt) ->
       github:
         repo: 'casetext/quill'
         usernameVar: 'GITHUB_TOKEN',
+        passwordVar: 'THIS_VAR_SHOULD_BE_EMPTY'
   )
 
   grunt.config('github-release',
