@@ -19,5 +19,6 @@
     "Gruntfile.coffee",
     "index.js",
     "package.json"
-  ]
+  ],
+  "private": true
 }
