@@ -13,6 +13,7 @@ module.exports = (grunt) ->
       repository: 'casetext/quill'
       files:
         '.build': ['quill.tar.gz']
-      auth: process.env.GITHUB_TOKEN
+      auth:
+        user: process.env.GITHUB_TOKEN
 
   )
