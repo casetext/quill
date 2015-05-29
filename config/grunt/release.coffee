@@ -2,8 +2,8 @@ module.exports = (grunt) ->
   grunt.config('compress',
     dist:
       options:
-        archive: '.build/quill.tar.gz'
-        mode: 'tgz'
+        archive: '.build/quill.zip'
+        mode: 'zip'
       files: [{
         cwd: '.build/quill'
         src: ['**/*']

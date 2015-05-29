@@ -1,6 +1,6 @@
 {
   "name": "quill",
-  "version": "0.19.12",
+  "version": "0.19.12-ct",
   "description": "Cross browser rich text editor",
   "author": "Jason Chen <jhchen7@gmail.com>",
   "homepage": "http://quilljs.com",
@@ -26,9 +26,11 @@
     "grunt-contrib-copy": "~0.8.0",
     "grunt-contrib-stylus": "~0.21.0",
     "grunt-contrib-uglify": "~0.9.1",
+    "grunt-github-releaser": "^0.1.17",
     "grunt-karma": "~0.10.1",
     "grunt-lodash": "~0.4.0",
     "grunt-protractor-runner": "~1.2.1",
+    "grunt-release-it": "^0.2.1",
     "grunt-sauce-connect-launcher": "~0.3.0",
     "harp": "~0.17.0",
     "http-proxy": "~1.11.1",
@@ -61,10 +63,10 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quilljs/quill"
+    "url": "https://github.com/casetext/quill"
   },
   "bugs": {
-    "url": "https://github.com/quilljs/quill/issues"
+    "url": "https://github.com/casetext/quill/issues"
   },
   "scripts": {
     "prepublish": "grunt dist",
@@ -75,5 +77,6 @@
     "editor",
     "rich text",
     "wysiwyg"
-  ]
+  ],
+  "private": true
 }
