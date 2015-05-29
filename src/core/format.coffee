@@ -1,5 +1,6 @@
 _   = require('lodash')
 dom = require('../lib/dom')
+gdocs = 'https://docs.google.com/gview?embedded=true&url='
 
 
 class Format
@@ -107,7 +108,15 @@ class Format
     pdf:
       type: Format.types.EMBED
       tag: 'IFRAME'
-      attribute: 'src'
+      add: (node, value) ->
+        node.setAttribute('src', gdocs + encodeURIComponent(value))
+        return node
+      remove: (node) ->
+        node.removeAttribute('src')
+        return node
+      value: (node) ->
+        return decodeURIComponent(node.getAttribute('src').replace(gdocs, ''))
+
 
 
 
