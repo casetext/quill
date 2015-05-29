@@ -3,6 +3,7 @@ module.exports = (grunt) ->
     options:
       additionalFiles: ['bower.json']
       npm: false
+      tagName: 'v<%= version %>'
       github:
         repo: 'casetext/quill'
         usernameVar: 'GITHUB_TOKEN',
