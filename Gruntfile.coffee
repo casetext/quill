@@ -6,7 +6,7 @@ GRUNT_DIR = 'config/grunt'
 
 module.exports = (grunt) ->
   require('load-grunt-tasks')(grunt)
-
+  grunt.renameTask('release', 'grunt-release');
   grunt.initConfig(
     pkg: grunt.file.readJSON('package.json')
     port: 9000

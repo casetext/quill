@@ -1,10 +1,11 @@
 module.exports = (grunt) ->
-  grunt.config('release-it',
+  grunt.config('grunt-release',
     options:
-      pkgfiles: ['package.json', 'bower.json']
-      buildCommand: 'grunt release'
-      private: true
-      publish: false
+      additionalFiles: ['bower.json']
+      npm: false
+      github:
+        repo: 'casetext/quill'
+        usernameVar: 'GITHUB_TOKEN',
   )
 
   grunt.config('github-release',

@@ -1,6 +1,6 @@
 {
   "name": "quill",
-  "version": "0.19.12-ct",
+  "version": "0.19.12",
   "description": "Cross browser rich text editor",
   "author": "Jason Chen <jhchen7@gmail.com>",
   "homepage": "http://quilljs.com",
@@ -30,7 +30,7 @@
     "grunt-karma": "~0.10.1",
     "grunt-lodash": "~0.4.0",
     "grunt-protractor-runner": "~1.2.1",
-    "grunt-release-it": "^0.2.1",
+    "grunt-release": "^0.12.0",
     "grunt-sauce-connect-launcher": "~0.3.0",
     "harp": "~0.17.0",
     "http-proxy": "~1.11.1",
