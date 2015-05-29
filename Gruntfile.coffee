@@ -27,7 +27,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask('dist', ['clean', 'lodash', 'browserify', 'uglify', 'stylus', 'concat'])
   grunt.registerTask('release', ['dist', 'examples', 'copy', 'compress'])
-
+  grunt.registerTask('make-release', ['grunt-release', 'release', 'github-release'])
   grunt.registerTask('server', ['connect:server:keepalive'])
 
   grunt.registerTask('test', ['test:unit'])
